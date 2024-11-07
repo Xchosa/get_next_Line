@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:11:16 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/05 14:38:22 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:54:18 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 # include <stdio.h>
 
 char    *get_next_line(int fd);
+size_t  ft_strlen(const char *s);
+size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t  ft_strlcat(char *dst, const char *src, size_t dstsize);
+char    *ft_strchr(const char *s, int c);
+char    *ft_strdup(const char *s1);
+char    *ft_strjoin(char const *s1, char const *s2);
 
 #endif
 
