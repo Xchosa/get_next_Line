@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkauker <jkauker@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: poverbec <poverbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/09 15:17:06 by jkauker          ###   ########.fr       */
+/*   Updated: 2024/11/10 12:36:10 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static char	*read_and_allocate(int fd, char *storage_buffer);
 static void	add_lines(char **storage_buffer, char *tmp_buffer);
+static char *seperate_rest(char *storage_buffer);
 
 char	*get_next_line(int fd)
 {
@@ -21,16 +22,13 @@ char	*get_next_line(int fd)
 	static char	storage_buffer[BUFFER_SIZE + 1];
 	char		*result;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 )//|| read(fd, &storage_buffer, 0) < 0)
-	// permission to open the the file (read 0 bytes)
+	if (fd < 0 || BUFFER_SIZE <= 0 )
 		return (NULL);
 	result = read_and_allocate(fd, storage_buffer);
 	if (result == NULL)
 		return (NULL);
-	return (result);
+	return (seperate_rest(storage_buffer));
 }
-
-// verlaesst while loop, wenn er \n findet und geht nicht wieder rein. 
 
 char	*read_and_allocate(int fd, char *storage_buffer)
 {
@@ -48,13 +46,13 @@ char	*read_and_allocate(int fd, char *storage_buffer)
 		{
 			free(tmp_buffer);
 			return (NULL); // finished the file
-		}
+	}	
 		tmp_buffer[char_read] = '\0';
 		add_lines(&storage_buffer, tmp_buffer);
 		free(tmp_buffer);
 	}
 
-	return (storage_buffer);
+	return (seperate_rest(storage_buffer));
 }
 
 void	add_lines(char **storage_buffer, char *tmp_buffer)
@@ -63,29 +61,52 @@ void	add_lines(char **storage_buffer, char *tmp_buffer)
 	size_t	len;
 
 	len = ft_strlen(*storage_buffer) + ft_strlen(tmp_buffer);
-		// why pointer of storage_buffer
 	result = (char *)malloc((len + 1) * sizeof(char));
 	if (result == NULL)
 		return ;
 	result[0] = '\0';
 	ft_strlcpy(result, *storage_buffer, len + 1);
-		// copy content of old storage_buffer to the new buffer "result"
-	// result (dst), storage_buffer (src)
 	ft_strlcat(result, tmp_buffer, len + 1);
 		// appends contents of tmp_buffer to result
-	*storage_buffer = result;
-	// free old storage
+	// result = seperate_rest(result);
+	*storage_buffer = result; 
+	// result hat gerade alles soll aber nur 
+	//   eine zeile zuruckgeben. 
+	// printf("test of strlcat %s , hier ", result);
 		// update Ptr storage_buffer to point to the new result,
 		// which contains the concatenated content
 	// from stack straight to the heap
 }
 
-// aktuell schmeiss ich den teil raus der nach der new line kommt 
-// und den rest abspeichert und beim naesten mal nur den 
-// ft_strjoin
-
-// nur eine zeile einliesst und dann sie zuruckgibt 
-
+char *seperate_rest(char *storage_buffer)
+{
+	char *rest;
+	int i;
+	size_t len_of_leftover_poem;
+	
+	len_of_leftover_poem = 0;
+	i = 0;
+	while(storage_buffer[i] != '\n' && storage_buffer[i] != '\0')
+		i++;
+	if(storage_buffer[i] == '\n')
+		i++;
+	rest = (char*)malloc((i +1)* sizeof(char));
+	if (rest == NULL)
+		return (NULL);
+	ft_strlcpy(rest, storage_buffer, i);
+	rest[i] = '\0';
+	
+	printf("test of rest %s , \n hier ", rest);
+	
+	while(storage_buffer[i + len_of_leftover_poem] != '\0')
+	{
+		storage_buffer[len_of_leftover_poem] = storage_buffer[i];
+		len_of_leftover_poem++;
+	}
+	storage_buffer[len_of_leftover_poem] = '\0';
+	printf("test of rest %s , \n hier ", storage_buffer);
+	return(rest);
+}
 
 int	main(void)
 {
@@ -115,17 +136,15 @@ int	main(void)
 	// 	printf("Read line: %s\n", test);
 	// 	while ;
 	// }
-	// while(1)
-	// {
-	// 	test = get_next_line(fd);
-	// 	if(!test)
-	// 	{
-	// 		break;
-	// 	}
-	// 	printf("%s", test);
-	// }
+	while(1)
+	{
 		test = get_next_line(fd);
+		if(!test)
+		{
+			break;
+		}
 		printf("%s", test);
+	}
 	free(test);
 	close(fd);
 	return (0);
