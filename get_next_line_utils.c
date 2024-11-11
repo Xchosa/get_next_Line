@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:16:55 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/09 10:54:12 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:07:43 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,25 @@ size_t	ft_strlen(const char *s)
 		i++;
 	}
 	return (i);
+}
+char	*ft_strdup(const char *s1)
+{
+	char	*cpys1;
+	int		len;
+	int		i;
+
+	i = 0;
+	len = ft_strlen(s1);
+	cpys1 = (char *)malloc((len + 1) * (sizeof(char)));
+	if (cpys1 == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		cpys1[i] = s1[i];
+		i++;
+	}
+	cpys1[i] = '\0';
+	return (cpys1);
 }
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkauker <jkauker@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: poverbec <poverbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:11:16 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/09 15:10:47 by jkauker          ###   ########.fr       */
+/*   Updated: 2024/11/11 11:00:49 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#   define BUFFER_SIZE 200
+#   define BUFFER_SIZE 3
 # endif
 
 # include <unistd.h>
