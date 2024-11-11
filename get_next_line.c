@@ -6,34 +6,49 @@
 /*   By: poverbec <poverbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/11 11:02:34 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:56:10 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./get_next_line.h"
 
-static char	*read_and_allocate(int fd, char *storage_buffer);
-static void	add_lines(char **storage_buffer, char *tmp_buffer);
-static char *seperate_rest(char *storage_buffer);
 
 char	*get_next_line(int fd)
 {
-	int			chars_read;
-	static char	storage_buffer[BUFFER_SIZE + 1];
-	char		*result;
+	ssize_t		bytes_read;
+	static char	*storage_buffer = NULL;
+	char		buffer[BUFFER_SIZE +1];
+	char		*tmp_buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 )
 		return (NULL);
-	if (result == NULL)
-		return (NULL);
-	return (result);
+	if(!storage_buffer)
+		storage_buffer = ft_strdup("");
+	bytes_read = read(fd,buffer, BUFFER_SIZE); 
+	// bytes die eingelsesen sind (bytes_read)
+	// eingelesene chars in buffer
+	while (bytes_read > 0 ||(!ft_strchr(buffer, '\n' )))// as long as no \n found (not yet copied)
+		{
+			buffer[bytes_read] = '\0';
+			
+			tmp_buffer = ft_strjoin (storage_buffer, buffer);// first  NULL + Hal = tmp_buffer(HAL)
+			// sec Call; hal + lo 
+			if (!tmp_buffer)
+			{
+			free(storage_buffer);
+			*buffer = tmp_buffer; // buffer points now to L of Hal 
+			}
+			bytes_read = (fd,buffer, BUFFER_SIZE); // read next chars 
+		}
+	ft_memmove(tmp_buffer, (ft_strchr(buffer,'\n')), (ft_strlen(buffer)) );
+	return(storage_buffer = tmp_buffer);
+	// to tmp_buffer , next letters of buffer(with the \n) gets added
 }
 // strchr gives the points to the first position of \n 
 // memmove copies in  The memmove() function copies len bytes from string 
 	// 	src to string dst.  The two strings may overlap; 
 	// 	the copy is always done
     //  in a non-destructive manner.
-ft_memmove(storage_buffer, (ft_strchr(storage_buffer,'\n')), (ft_strlen(storage_buffer)) )
 
 int	main(void)
 {
@@ -57,21 +72,21 @@ int	main(void)
 		return (1);
 	}
 
-	// test = get_next_line(fd);
-	// if (test)
+	test = get_next_line(fd);
+	// if (!test)
 	// {
-	// 	printf("Read line: %s\n", test);
+		printf("Read line: %s\n", test);
 	// 	while ;
 	// }
-	while(1)
-	{
-		test = get_next_line(fd);
-		if(!test)
-		{
-			break;
-		}
-		printf("%s", test);
-	}
+	// while(1)
+	// {
+	// 	test = get_next_line(fd);
+	// 	if(!test)
+	// 	{
+	// 		break;
+	// 	}
+	// 	printf("%s", test);
+	// }
 	free(test);
 	close(fd);
 	return (0);
