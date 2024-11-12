@@ -6,7 +6,7 @@
 /*   By: jkauker <jkauker@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/12 14:27:39 by jkauker          ###   ########.fr       */
+/*   Updated: 2024/11/12 14:46:32 by jkauker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,28 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 )
 		return (NULL);
 	if(!storage_buffer)
-		storage_buffer = ft_strdup(""); // malloc check
-
+	{
+		storage_buffer = ft_strdup("");
+		if(!storage_buffer)
+			return NULL; // malloc check
+	}
 	bytes_read = read_store(fd, &storage_buffer);
 	if (bytes_read < 0 )
-		return ("error reading"); // free storgaebuffer
+		return ("error reading");
 		// printf("strbuf1: %s\n", storage_buffer);
 	if (bytes_read == 0)
 	{
-		if(storage_buffer[0] != '\0')
-		{
-			temp = storage_buffer;
-			storage_buffer = NULL;// storage_buffer leeren, am ende der file 
-			return (temp);
-		}
-		else 
-			return NULL;
+		temp = storage_buffer;
+		storage_buffer = NULL;// storage_buffer leeren, am ende der file 
+		return (temp);
 	}
 	int len;
 	char *line;
 	int i;
 
 	i = 0;
-	
-	// len = ft_strlen(ft_strchr(*storage_buffer, '\n' ));
 	while(storage_buffer[i] != '\n')
-	{
 		i++;
-	}
 	i++;
 	line = (char*)malloc((i +1 )* (sizeof(char)));
 	ft_strlcpy(line, storage_buffer, i +1 );
@@ -151,17 +145,24 @@ int	main(void)
 		return (1);
 	}
 
-	test = get_next_line(fd);
+	// test = get_next_line(fd);
 	// test2 = get_next_line(fd);
+	// printf("first 1 |%s|\n", test);
+	// printf("first 2 |%s|\n", test2);
+	// printf("first 3 |%s|\n", get_next_line(fd));
+	// printf("first 4 |%s|\n", get_next_line(fd));
+	// printf("first 5 |%s|\n", get_next_line(fd));
 	// printf("first 1 %s", test);
-	// printf("first 2 %s", test2);
-	// printf("first 1 %s", test);
+	int count = 0;
 	while(1)
 	{
+		count++;
 		test = get_next_line(fd);
+		printf("first 1 %d |%s|\n", count, test);
 		if (!test)
 			break;
-		printf("first 1 %s", test);
+		if (count == 6)
+			break;
 		
 	}
 
