@@ -6,7 +6,7 @@
 /*   By: jkauker <jkauker@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/12 14:46:32 by jkauker          ###   ########.fr       */
+/*   Updated: 2024/11/13 12:20:38 by jkauker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 static int read_store(int fd, char **storage_buffer);
 static char *next_line(char **storage_buffer);
 
+// bonus part storage_buffer[fd]
 char	*get_next_line(int fd)
 {
-	int		bytes_read;
+	int			bytes_read;
 	static char	*storage_buffer = NULL;
-	char 	*temp;
+	char 		*temp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 )
 		return (NULL);
@@ -27,18 +28,18 @@ char	*get_next_line(int fd)
 	{
 		storage_buffer = ft_strdup("");
 		if(!storage_buffer)
-			return NULL; // malloc check
+			return NULL; 
 	}
 	bytes_read = read_store(fd, &storage_buffer);
 	if (bytes_read < 0 )
 		return ("error reading");
-		// printf("strbuf1: %s\n", storage_buffer);
 	if (bytes_read == 0)
 	{
 		temp = storage_buffer;
 		storage_buffer = NULL;// storage_buffer leeren, am ende der file 
 		return (temp);
 	}
+	// erst leaks raus dann in zweite funktion
 	int len;
 	char *line;
 	int i;
@@ -48,12 +49,13 @@ char	*get_next_line(int fd)
 		i++;
 	i++;
 	line = (char*)malloc((i +1 )* (sizeof(char)));
-	ft_strlcpy(line, storage_buffer, i +1 );
+	ft_strlcpy(line, storage_buffer, i +1 );// line until /n (leftover still in)
+	// storage_buffer 
 	line [i] = '\0';
-	storage_buffer += i;// memory content aerdern 
-	// return(next_line(&storage_buffer));
-	// 
-	// printf("strbuf2: %s\n", line);
+	storage_buffer += i;// change memory content 
+	// temp = ft_strdup(storage_buffer + i);
+	// free(storage_buffer);
+	// storage_buffer = temp;
 	return(line);
 }
 	// bytes die eingelsesen sind (bytes_read)
@@ -69,22 +71,21 @@ int read_store(int fd, char **storage_buffer)
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
 		if(bytes_read < 0)
 			return(-1);
-		while (bytes_read > 0) // as long smth gets read
+		while (bytes_read > 0) 
 			{
 				read_buffer[bytes_read] = '\0';
 				tmp_buffer = ft_strjoin (*storage_buffer, read_buffer);
 				if(!tmp_buffer)
 					return(-1);
-				// free(*storage_buffer);
-				*storage_buffer = tmp_buffer; // copy all in storage buffer
+				*storage_buffer = tmp_buffer;
+				// free(*storage_buffer);// read next chars// copy all in storage buffer
 				if (ft_strchr(tmp_buffer, '\n' ))
 					{
 						// storage_buffer = next_line(&tmp_buffer);// exit to handle n\lines
 						// return(1);
-				
 						break;
 					}
-			bytes_read = read(fd,read_buffer, BUFFER_SIZE); // read next chars 		
+			bytes_read = read(fd,read_buffer, BUFFER_SIZE); 		
 			}
 		return(bytes_read);
 	}

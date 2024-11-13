@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poverbec <poverbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jkauker <jkauker@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:16:55 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/10 15:07:43 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/13 12:17:20 by jkauker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,30 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
+void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
+{
+	unsigned char	*destnew;
+	unsigned char	*srcnew;
+	size_t			i;
+
+	destnew = (unsigned char *)dst;
+	srcnew = (unsigned char *)src;
+	i = 0;
+	if (destnew == NULL && src == NULL)
+		return (NULL);
+	while (i < n)
+	{
+		destnew[i] = srcnew[i];
+		i++;
+	}
+	return (destnew);
+}
+
 char	*ft_strdup(const char *s1)
 {
-	char	*cpys1;
-	int		len;
-	int		i;
+	char		*cpys1;
+	size_t		len;
+	int			i;
 
 	i = 0;
 	len = ft_strlen(s1);
@@ -40,8 +59,11 @@ char	*ft_strdup(const char *s1)
 		i++;
 	}
 	cpys1[i] = '\0';
+	// ft_memcpy(cpys1, s1, len);
 	return (cpys1);
 }
+
+
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
