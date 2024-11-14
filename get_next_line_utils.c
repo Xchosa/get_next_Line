@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkauker <jkauker@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:16:55 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/13 12:17:20 by jkauker          ###   ########.fr       */
+/*   Updated: 2024/11/13 16:18:22 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,33 @@ char	*ft_strdup(const char *s1)
 }
 
 
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	unsigned char	*dstchar;
+	unsigned char	*srcchar;
+	size_t			i;
+
+	dstchar = (unsigned char *)dst;
+	srcchar = (unsigned char *)src;
+	i = 0;
+	if (dstchar == NULL && srcchar == NULL)
+		return (NULL);
+	if (dstchar < srcchar)
+	{
+		while (len > i++)
+			dstchar[i - 1] = srcchar[i - 1];
+	}
+	else
+	{
+		i = len;
+		while (i > 0)
+		{
+			i--;
+			dstchar[i] = srcchar[i];
+		}
+	}
+	return (dst);
+}
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
