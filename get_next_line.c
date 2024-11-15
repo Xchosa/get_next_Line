@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/15 13:56:39 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:28:05 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_next_line(int fd)
 	ssize_t		bytes_read;
 	static char	buffer[BUFFER_SIZE+1];
 	char 		*line; // output
-	 char		*tmp_buffer;
+	char		*tmp_buffer;
 	size_t		i;
 	size_t		j;
 
@@ -39,19 +39,25 @@ char	*get_next_line(int fd)
 			if (buffer[0] == 0)
 				return (free(line), NULL);
 			ft_bzero(buffer, BUFFER_SIZE +1);
-			tmp_buffer = line;
-			free(line);
-			return(line = NULL, tmp_buffer);
+			// tmp_buffer = line;
+			return(line);
 		}
 		else if (bytes_read < 0)
+		{
+			ft_bzero(buffer, BUFFER_SIZE +1);
 			return (free(line), line = NULL, NULL);
+		}
 		buffer[bytes_read] = '\0';
 		tmp_buffer = ft_strjoin(line, buffer);
+		if (!tmp_buffer)
+			return(free(line), line = NULL, NULL);
 		free(line);
 		line = tmp_buffer;
 
 	}
 	tmp_buffer = ft_createline(line);
+	if (!tmp_buffer)
+		return (NULL);
 	free(line);
 	i = 0;
 	while(buffer[i] != '\n' && buffer[i])
@@ -77,6 +83,8 @@ char *ft_createline(char *line)
 	} 
 	i++;
 	newline = (char*) malloc (i * sizeof(char) + 1);
+	if(!newline)
+		return(free(line), line = NULL, NULL);
 	ft_memmove(newline, line, i );
 	newline[i] = '\0';
 	return(newline);
