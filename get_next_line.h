@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:11:16 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/14 11:37:02 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:30:09 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char    *ft_strchr(const char *s, int c);
 char    *ft_strdup(const char *s1);
 char    *ft_strjoin(char const *s1, char const *s2);
 void	*ft_memmove(void *dst, const void *src, size_t len);
+void	ft_bzero(void *s, size_t n);
 
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/14 16:39:14 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:37:50 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ char	*get_next_line(int fd)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if(bytes_read == 0)
 		{
-			buffer[0]= '\0';
-			if (!line && !*line )
-				{
-				free(line);
+			if (buffer[0] == 0)
 				return (NULL);
-				}
+			ft_bzero(buffer, BUFFER_SIZE +1);
+			
 			return(line);
 		}
 		else if (bytes_read < 0)
 			return (NULL);
 		line = ft_strjoin(line, buffer);
 	}
+
+	
 	if (!*buffer)
 		return(free(line), line);// set line to zero
 	line = ft_createline(line);
@@ -81,52 +81,51 @@ char *ft_createline(char *line)
 
 	// wenn wir new line haben dann returnen und buffer updaten. 
 
-int	main(void)
-{
-	int fd;
-	char *test;
-	char *test2;
-	char *test3;
-	char *test4;
+// int	main(void)
+// {
+// 	int fd;
+// 	char *test;
+// 	char *test2;
+// 	char *test3;
+// 	char *test4;
 
-	// fd = open("poem.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-	// // dup2(3, 1);
-	// if (fd == -1)
-	// {
-	// 	printf("error creating and opening poem");
-	// 	return (1);
-	// }
-	// printf("fd of file %d\n", fd);
-	// write(fd, "this is a poem\n with multiple lines,\n okay. ", 45);
-	// close(fd);
+// 	// fd = open("poem.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+// 	// // dup2(3, 1);
+// 	// if (fd == -1)
+// 	// {
+// 	// 	printf("error creating and opening poem");
+// 	// 	return (1);
+// 	// }
+// 	// printf("fd of file %d\n", fd);
+// 	// write(fd, "this is a poem\n with multiple lines,\n okay. ", 45);
+// 	// close(fd);
 
 
 
-	fd = open("poem.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		printf("error in reopening poem");
-		return (1);
-	}
+// 	fd = open("poem.txt", O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		printf("error in reopening poem");
+// 		return (1);
+// 	}
 
-	// test = get_next_line(fd);
-	// printf(" %s", test);
-	// test2 = get_next_line(fd);
-	// printf(" %s", test2);
-	// test3 = get_next_line(fd);
-	// printf(" %s", test3);
-	// test4 = get_next_line(fd);
-	// printf(" %s", test4);
-	while(1)
-	{
-		test = get_next_line(fd);
-		if (!test)
-			break;
-		printf(" %s", test);
-	}
+// 	// test = get_next_line(fd);
+// 	// printf(" %s", test);
+// 	// test2 = get_next_line(fd);
+// 	// printf(" %s", test2);
+// 	// test3 = get_next_line(fd);
+// 	// printf(" %s", test3);
+// 	// test4 = get_next_line(fd);
+// 	// printf(" %s", test4);
+// 	while(1)
+// 	{
+// 		test = get_next_line(fd);
+// 		if (!test)
+// 			break;
+// 		printf(" %s", test);
+// 	}
 
-	// }
-	free(test);
-	close(fd);
-	return (0);
-}
+// 	free(test);
+// 	close(fd);
+// 	return (0);
+// }

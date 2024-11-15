@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:16:55 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/13 16:18:22 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:29:49 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ size_t	ft_strlen(const char *s)
 		i++;
 	}
 	return (i);
+}
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*prt;
+	size_t			i;
+
+	prt = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+	{
+		prt[i] = '\0';
+		i++;
+	}
 }
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
 {
