@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/15 13:09:06 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:56:39 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static char* ft_createline(char *line);
 
 char	*get_next_line(int fd)
 {
-	int			bytes_read;
+	ssize_t		bytes_read;
 	static char	buffer[BUFFER_SIZE+1];
 	char 		*line; // output
 	 char		*tmp_buffer;
-	int			i;
-	int			j;
+	size_t		i;
+	size_t		j;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -41,18 +41,16 @@ char	*get_next_line(int fd)
 			ft_bzero(buffer, BUFFER_SIZE +1);
 			tmp_buffer = line;
 			free(line);
-			return(tmp_buffer);
+			return(line = NULL, tmp_buffer);
 		}
 		else if (bytes_read < 0)
-			return (free(line), NULL);
+			return (free(line), line = NULL, NULL);
 		buffer[bytes_read] = '\0';
 		tmp_buffer = ft_strjoin(line, buffer);
 		free(line);
 		line = tmp_buffer;
-		// free(tmp_buffer);
+
 	}
-	if (!*buffer)
-		return(free(line), line);// set line to zero
 	tmp_buffer = ft_createline(line);
 	free(line);
 	i = 0;
@@ -71,7 +69,7 @@ char	*get_next_line(int fd)
 char *ft_createline(char *line)
 {
 	char *newline;
-	size_t i;
+	ssize_t i;
 	i = 0;
 	while(line[i]!= '\n')
 	{
