@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/15 10:37:50 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:09:06 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,42 @@ char	*get_next_line(int fd)
 	int			bytes_read;
 	static char	buffer[BUFFER_SIZE+1];
 	char 		*line; // output
-	char		*tmp_buffer;
+	 char		*tmp_buffer;
 	int			i;
 	int			j;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 )
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = ft_strjoin("", buffer);
-	//  neuen string mit dem buffer (dem rest vorne dran) 
+	if(!line)
+		return(NULL);
+	// hat nichts geaendert
+	// line = tmp_buffer;
+	// free(tmp_buffer);
 	while(!ft_strchr(buffer, '\n') )// buffer[0] is not empty
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if(bytes_read == 0)
 		{
 			if (buffer[0] == 0)
-				return (NULL);
+				return (free(line), NULL);
 			ft_bzero(buffer, BUFFER_SIZE +1);
-			
-			return(line);
+			tmp_buffer = line;
+			free(line);
+			return(tmp_buffer);
 		}
 		else if (bytes_read < 0)
-			return (NULL);
-		line = ft_strjoin(line, buffer);
+			return (free(line), NULL);
+		buffer[bytes_read] = '\0';
+		tmp_buffer = ft_strjoin(line, buffer);
+		free(line);
+		line = tmp_buffer;
+		// free(tmp_buffer);
 	}
-
-	
 	if (!*buffer)
 		return(free(line), line);// set line to zero
-	line = ft_createline(line);
+	tmp_buffer = ft_createline(line);
+	free(line);
 	i = 0;
 	while(buffer[i] != '\n' && buffer[i])
 		i++;
@@ -58,7 +66,7 @@ char	*get_next_line(int fd)
 		i++;
 	}
 	buffer[j] = '\0';
-	return(line);
+	return(tmp_buffer);
 }
 char *ft_createline(char *line)
 {
@@ -68,13 +76,11 @@ char *ft_createline(char *line)
 	while(line[i]!= '\n')
 	{
 		i++;
-	}
-	i++; 
-	
-	newline = (char*) malloc (i * sizeof(char));
+	} 
+	i++;
+	newline = (char*) malloc (i * sizeof(char) + 1);
 	ft_memmove(newline, line, i );
 	newline[i] = '\0';
-	
 	return(newline);
 }
 	
@@ -84,24 +90,8 @@ char *ft_createline(char *line)
 // int	main(void)
 // {
 // 	int fd;
-// 	char *test;
-// 	char *test2;
-// 	char *test3;
-// 	char *test4;
-
-// 	// fd = open("poem.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	// // dup2(3, 1);
-// 	// if (fd == -1)
-// 	// {
-// 	// 	printf("error creating and opening poem");
-// 	// 	return (1);
-// 	// }
-// 	// printf("fd of file %d\n", fd);
-// 	// write(fd, "this is a poem\n with multiple lines,\n okay. ", 45);
-// 	// close(fd);
-
-
-
+// 	char *test = NULL;
+	
 // 	fd = open("poem.txt", O_RDONLY);
 // 	if (fd == -1)
 // 	{
@@ -109,23 +99,15 @@ char *ft_createline(char *line)
 // 		return (1);
 // 	}
 
-// 	// test = get_next_line(fd);
-// 	// printf(" %s", test);
-// 	// test2 = get_next_line(fd);
-// 	// printf(" %s", test2);
-// 	// test3 = get_next_line(fd);
-// 	// printf(" %s", test3);
-// 	// test4 = get_next_line(fd);
-// 	// printf(" %s", test4);
 // 	while(1)
 // 	{
 // 		test = get_next_line(fd);
 // 		if (!test)
 // 			break;
-// 		printf(" %s", test);
+// 		printf("%s", test);
 // 	}
 
-// 	free(test);
+// 	// free(test);
 // 	close(fd);
 // 	return (0);
 // }
