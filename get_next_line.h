@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:11:16 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/15 10:30:09 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:50:32 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#   define BUFFER_SIZE 3
+#   define BUFFER_SIZE 10
 # endif
 
 # include <unistd.h>
