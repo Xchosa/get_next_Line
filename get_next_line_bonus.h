@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:11:16 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/18 17:43:07 by poverbec         ###   ########.fr       */
+/*   Created: 2024/11/18 17:42:05 by poverbec          #+#    #+#             */
+/*   Updated: 2024/11/18 17:42:56 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <limits.h>
 
 char    *get_next_line(int fd);
 size_t  ft_strlen(const char *s);
@@ -30,5 +31,3 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 void	ft_bzero(void *s, size_t n);
 
 #endif
-
-// -D BUFFER_SIZE=n

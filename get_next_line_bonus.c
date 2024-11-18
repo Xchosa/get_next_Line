@@ -1,41 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/18 17:28:38 by poverbec         ###   ########.fr       */
+/*   Created: 2024/11/18 16:26:59 by poverbec          #+#    #+#             */
+/*   Updated: 2024/11/18 17:43:53 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./get_next_line.h"
 
-static char	*ft_createline(char *line);
-static int	read_store(char *buffer, char **line, int fd, int *flag);
-static void	move_buffer_forward(char *buffer);
-static int	handle_buffer_zero(char **buffer, int bytes_read,
-			char **tmp_buffer, char **line);
+#include "./get_next_line_bonus.h"
+
+static char* ft_createline(char *line);
+static int read_store(char *buffer, char **line, int fd, int *flag);
+static void move_buffer_forward(char *buffer);
+static int handle_buffer_zero(char **buffer, int bytes_read, char **tmp_buffer, char **line );
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
-	char		*line;
+	static char	buffer [OPEN_MAX][BUFFER_SIZE+1];
+	char 		*line;
 	char		*tmp_buffer;
 	int			flag;
 
 	flag = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+
+	if (fd < 0 || BUFFER_SIZE <= 0 ||fd >= OPEN_MAX)
 		return (NULL);
 	line = ft_strjoin("", buffer);
-	if (!line)
-		return (NULL);
+	if(!line)
+		return(NULL);
 	if (!ft_strchr(buffer, '\n'))
-		if (read_store(buffer, &line, fd, &flag) < 0)
+		if (read_store(buffer, &line,fd, &flag) < 0)
 			return (NULL);
 	if (flag == 1)
-		return (line);
+	 	return (line);
 	if (flag == 2)
 		return(NULL);
 	tmp_buffer = ft_createline(line);
@@ -116,8 +117,6 @@ static void move_buffer_forward(char *buffer)
 	buffer[j] = '\0';
 }
 	
-
-	// wenn wir new line haben dann returnen und buffer updaten. 
 
 // int	main(void)
 // {
