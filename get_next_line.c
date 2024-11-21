@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/18 17:28:38 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:12:54 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*ft_createline(char *line);
 static int	read_store(char *buffer, char **line, int fd, int *flag);
 static void	move_buffer_forward(char *buffer);
 static int	handle_buffer_zero(char **buffer, int bytes_read,
-			char **tmp_buffer, char **line);
+				char **tmp_buffer, char **line);
 
 char	*get_next_line(int fd)
 {
@@ -37,21 +37,21 @@ char	*get_next_line(int fd)
 	if (flag == 1)
 		return (line);
 	if (flag == 2)
-		return(NULL);
+		return (NULL);
 	tmp_buffer = ft_createline(line);
 	if (!tmp_buffer)
 		return (NULL);
 	free(line);
 	move_buffer_forward(buffer);
-	return(tmp_buffer);
+	return (tmp_buffer);
 }
 
-static int read_store(char *buffer, char **line, int fd, int *flag)
+static int	read_store(char *buffer, char **line, int fd, int *flag)
 {
-   ssize_t bytes_read;
-    char *tmp_buffer;
+	ssize_t	bytes_read;
+	char	*tmp_buffer;
 
-    while (!ft_strchr(buffer, '\n'))
+    while(!ft_strchr(buffer, '\n'))
     {
         bytes_read = read(fd, buffer, BUFFER_SIZE);
         if (bytes_read == 0)

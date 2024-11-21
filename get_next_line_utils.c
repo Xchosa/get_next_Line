@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:16:55 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/18 16:30:26 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:10:17 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
+
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*prt;

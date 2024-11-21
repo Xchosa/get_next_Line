@@ -6,17 +6,16 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:26:59 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/18 17:43:53 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:09:00 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./get_next_line_bonus.h"
 
-static char* ft_createline(char *line);
-static int read_store(char *buffer, char **line, int fd, int *flag);
-static void move_buffer_forward(char *buffer);
-static int handle_buffer_zero(char **buffer, int bytes_read, char **tmp_buffer, char **line );
+static char	*ft_createline(char *line);
+static int	read_store(char *buffer, char **line, int fd, int *flag);
+static void	move_buffer_forward(char *buffer);
+static int	handle_buffer_zero(char **buffer, int bytes_read, char **tmp_buffer, char **line );
 
 char	*get_next_line(int fd)
 {
@@ -29,21 +28,21 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 ||fd >= OPEN_MAX)
 		return (NULL);
-	line = ft_strjoin("", buffer);
+	line = ft_strjoin("", buffer[fd]);
 	if(!line)
 		return(NULL);
-	if (!ft_strchr(buffer, '\n'))
-		if (read_store(buffer, &line,fd, &flag) < 0)
+	if (!ft_strchr(buffer[fd], '\n'))
+		if (read_store(buffer[fd], &line,fd, &flag) < 0)
 			return (NULL);
 	if (flag == 1)
-	 	return (line);
+	 	return(line);
 	if (flag == 2)
 		return(NULL);
 	tmp_buffer = ft_createline(line);
 	if (!tmp_buffer)
 		return (NULL);
 	free(line);
-	move_buffer_forward(buffer);
+	move_buffer_forward(buffer[fd]);
 	return(tmp_buffer);
 }
 
@@ -82,7 +81,6 @@ static int handle_buffer_zero(char **buffer, int bytes_read, char **tmp_buffer, 
 		return (free(*line), -1);
 	return(0);
 }
-
 
 char *ft_createline(char *line)
 {
