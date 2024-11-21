@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:15:48 by poverbec          #+#    #+#             */
-/*   Updated: 2024/11/21 14:12:54 by poverbec         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:56:15 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,79 +51,78 @@ static int	read_store(char *buffer, char **line, int fd, int *flag)
 	ssize_t	bytes_read;
 	char	*tmp_buffer;
 
-    while(!ft_strchr(buffer, '\n'))
-    {
-        bytes_read = read(fd, buffer, BUFFER_SIZE);
-        if (bytes_read == 0)
-        {
-            if (buffer[0] == 0)
-				return(free(*line), *flag = 2, 0);
-			if (handle_buffer_zero(&buffer, bytes_read, &tmp_buffer, line ) == -1 )
+	while (!ft_strchr(buffer, '\n'))
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == 0)
+		{
+			if (buffer[0] == 0)
+				return (free(*line), *flag = 2, 0);
+			if (handle_buffer_zero(&buffer, bytes_read, &tmp_buffer, line) < 0)
 				return (-1);
-    		return(free(*line),*line = tmp_buffer, *flag = 1, 1);
-        }
-        if (bytes_read < 0)
-            return (ft_bzero(buffer, BUFFER_SIZE + 1), free(*line), -1);
-        buffer[bytes_read] = '\0';
-        tmp_buffer = ft_strjoin(*line, buffer);
-        if (!tmp_buffer)
-            return (free(*line), -1);
-        free(*line);
-        *line = tmp_buffer;
-    }
-    return (0);
+			return (free(*line),*line = tmp_buffer, *flag = 1, 1);
+		}
+		if (bytes_read < 0)
+			return (ft_bzero(buffer, BUFFER_SIZE + 1), free(*line), -1);
+		buffer[bytes_read] = '\0';
+		tmp_buffer = ft_strjoin(*line, buffer);
+		if (!tmp_buffer)
+			return (free(*line), -1);
+		free(*line);
+		*line = tmp_buffer;
+	}
+	return (0);
 }
-static int handle_buffer_zero(char **buffer, int bytes_read, char **tmp_buffer, char **line )
+
+static int	handle_buffer_zero(char **buffer, int bytes_read,
+		char **tmp_buffer, char **line)
 {
 	(*buffer)[bytes_read] = '\0';
-    *tmp_buffer = ft_strjoin(*line, *buffer);
+	*tmp_buffer = ft_strjoin(*line, *buffer);
 	if (!(*tmp_buffer))
 		return (free(*line), -1);
-	return(0);
+	return (0);
 }
 
-
-char *ft_createline(char *line)
+char	*ft_createline(char *line)
 {
-	char *newline;
-	ssize_t i;
+	char	*newline;
+	ssize_t	i;
+
 	i = 0;
-	while(line[i]!= '\n')
+	while (line[i] != '\n')
 		i++;
 	i++;
-	newline = (char*) malloc ((i + 1 ) * sizeof(char));
-	if(!newline)
-		return(free(line), line = NULL, NULL);
-	ft_memmove(newline, line, i );
+	newline = (char *)malloc((i + 1) * sizeof(char));
+	if (!newline)
+		return (free(line), line = NULL, NULL);
+	ft_memmove(newline, line, i);
 	newline[i] = '\0';
-	return(newline);
+	return (newline);
 }
-static void move_buffer_forward(char *buffer)
+
+static void	move_buffer_forward(char *buffer)
 {
-	size_t i;
-	size_t j;
-	
+	size_t	i;
+	size_t	j;
+
 	i = 0;
 	j = 0;
-	while(buffer[i] != '\n' && buffer[i])
+	while (buffer[i] != '\n' && buffer[i])
 		i++;
 	while (buffer[i])
 	{
-		buffer[j] = buffer[i +1 ];
+		buffer[j] = buffer[i + 1];
 		j++;
 		i++;
 	}
 	buffer[j] = '\0';
 }
-	
-
-	// wenn wir new line haben dann returnen und buffer updaten. 
 
 // int	main(void)
 // {
 // 	int fd;
 // 	char *test = NULL;
-	
 // 	fd = open("poem.txt", O_RDONLY);
 // 	if (fd == -1)
 // 	{
